@@ -55,8 +55,8 @@
             label="操作">
           <template v-slot="scope">
             <el-button
-                size="mini">
-              <!--            @click="handleEdit(scope.$index, scope.row)"-->
+                size="mini"
+                @click="userEdit(scope.$index,scope.row)">
               编辑
             </el-button>
             <el-button
@@ -69,7 +69,54 @@
         </el-table-column>
       </el-table>
     </div>
+    <div>
+      <el-dialog title="编辑用户信息" :visible.sync="dialogFormVisible">
+<!--        @submit.native.prevent="userEdit">-->
+<!--        ref="ruleForm"-->
+        <el-form >
+          <el-form-item label="用户名:" prop="name">
+            <el-input v-model="userInfo.name"></el-input>
+          </el-form-item>
+          <el-form-item label="手机号:" prop="phone">
+            <el-input v-model.number="userInfo.phone"></el-input>
+          </el-form-item>
+          <el-form-item label="密码:" prop="pass">
+            <el-input type="password" v-model="userInfo.password" autocomplete="off"></el-input>
+          </el-form-item>
+          <el-form-item label="年龄:" prop="age">
+            <el-input v-model="userInfo.age"></el-input>
+          </el-form-item>
+          <el-form-item label="性别:" prop="sex">
+            <el-radio v-model="radio" label="女" @change="changeRadio">女</el-radio>
+            <el-radio v-model="radio" label="男" @change="changeRadio">男</el-radio>
+          </el-form-item>
+<!--          <el-form-item label="头像:" prop="headPic">-->
+<!--            <el-upload-->
+<!--                class="avatar-uploader"-->
+<!--                :action="$http.defaults.baseURL + '/upload'"-->
+<!--                :show-file-list="false"-->
+<!--                :on-success="handleAvatarSuccess"-->
+<!--                :before-upload="beforeAvatarUpload"-->
+<!--            >-->
+<!--              <template v-slot="scope">-->
+<!--                <img v-if="userRegister.icon":src="scope.row.icon">-->
+<!--&lt;!&ndash;                <i v-else class="el-icon-plus avatar-uploader-icon"></i>&ndash;&gt;-->
+<!--              </template>-->
 
+<!--            </el-upload>-->
+<!--          </el-form-item>-->
+          <el-form-item label="用户头像:" prop="icon" >
+              <img :src="userInfo.icon" height="100rem" width="100rem">
+              <el-button type="primary" >上传头像</el-button>
+          </el-form-item>
+          <el-form-item>
+<!--            native-type="submit"-->
+            <el-button type="primary" @click="userSave(userInfo)">修改</el-button>
+            <el-button type="danger" @click="dialogFormVisible=false">取消</el-button>
+          </el-form-item>
+        </el-form>
+      </el-dialog>
+    </div>
   </div>
 
 </template>
@@ -80,14 +127,21 @@ export default {
   name: 'UserList',
   data() {
     return {
-      userData: [],
+      radio: '1',
+      //页面展示
+      userData: {},
+      //编辑修改
+      userInfo: {},
+      dialogFormVisible: false,
     }
   },
   methods: {
+    //展示用户信息
     async fetch() {
       const res = await this.$http.get('/user')
       this.userData = res.data
     },
+    //删除用户
     async remove(index, row) {
       this.$confirm(`此操作将删除用户"${row.name}", 是否继续?`, '提示', {
         confirmButtonText: '确定',
@@ -102,6 +156,43 @@ export default {
         await this.$router.go(0)
       })
     },
+    userEdit(index, row) {
+      this.userInfo = row
+      this.name = row.name
+      this.dialogFormVisible = true
+    },
+    changeRadio(val) {
+      this.$set(this.userInfo, 'sex', '')
+      this.userInfo.sex = val
+    },
+    //头像上传
+    handleAvatarSuccess(res) {
+      this.$set(this.userInfo,'icon',res.url)
+      this.userInfo.icon = res.url
+    },
+    // 上传头像提示
+    beforeAvatarUpload(file) {
+      const isJPG = file.type === 'image/jpeg';
+      const isLt2M = file.size / 1024 / 1024 < 2;
+
+      if (!isJPG) {
+        this.$message.error('上传头像图片只能是 JPG 格式!');
+      }
+      if (!isLt2M) {
+        this.$message.error('上传头像图片大小不能超过 2MB!');
+      }
+      return isJPG && isLt2M;
+    },
+    //保存，更新
+    async userSave(){
+      const res = await this.$http.put('/user',this.userInfo)// eslint-disable-line no-unused-vars
+      await this.$router.go(0)
+      this.$message({
+        type:'success',
+        message:'修改成功',
+      })
+    }
+
   },
   //自动执行
   created() {

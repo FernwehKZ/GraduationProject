@@ -18,7 +18,7 @@
             width="200"
             align="center"
             label="操作">
-          <template slot-scope="scope">
+          <template v-slot="scope">
 
             <el-button
                 size="mini"
@@ -36,6 +36,7 @@
         </el-table-column>
       </el-table>
     </div>
+<!--    编辑表单-->
     <div>
       <el-dialog title="编辑类别" :visible.sync="dialogFormVisible">
         <el-form>
@@ -48,7 +49,6 @@
           <el-button type="primary" @click="editSave(categoryInfo)">确 定</el-button>
         </div>
       </el-dialog>
-
     </div>
   </div>
 </template>
@@ -62,7 +62,6 @@ export default {
   },
   data() {
     return {
-
       model: {},
       items: [],
       categoryInfo: {},

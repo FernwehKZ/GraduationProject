@@ -57,5 +57,10 @@ module.exports = app => {
             success:true,
         })
     });
+    //改
+    router.put('/user', async (req, res)=> {
+        const model = await User.findByIdAndUpdate(req.body._id,req.body)
+        res.send(model)
+    });
     app.use('/admin/api', router)//挂载到路由上
 }

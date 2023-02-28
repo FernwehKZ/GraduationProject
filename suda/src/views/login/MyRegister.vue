@@ -147,6 +147,7 @@ export default {
       }
       return isJPG && isLt2M;
     },
+
   },
 }
 </script>
