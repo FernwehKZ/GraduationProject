@@ -3,7 +3,7 @@ const multer = require('multer') //上传所需组件
 const bcrypt = require('bcrypt')
 const JWT = require('../../util/jwt')
 //本地图片路径
-const upload = multer({dest: __dirname + '/../../uploads'}).single('file')
+const upload = multer({dest: __dirname + '/../../uploads/userIcon'}).single('file')
 const router = express.Router(); //express子路由，方法写这
 const User = require('../../model/UserModel')
 
@@ -16,7 +16,7 @@ module.exports = app => {
     //上传头像
     router.post('/upload', upload, async (req, res) => {
         const file = req.file
-        file.url = `http://localhost:3000/uploads/${file.filename}`
+        file.url = `http://localhost:3000/uploads/userIcon/${file.filename}`
         res.send(file)
     })
 

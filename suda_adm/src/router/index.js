@@ -6,6 +6,7 @@ import MyMain from '@/views/Home/MyMain.vue'
 import UserList from "@/views/Home/UserList.vue";
 import MovieList from "@/views/Home/MovieList.vue";
 import MovieCategory from "@/views/Home/MovieCategory.vue";
+import AddMovie from "@/views/Home/AddMovie.vue";
 
 
 Vue.use(VueRouter)
@@ -33,6 +34,10 @@ const routes = [
       {
         path:'/home/movieCategory',
         component: MovieCategory,
+      },
+      {
+        path:'/home/addMovie',
+        component: AddMovie,
       },
       // {
       //   path:'/home/movieCategory/:id',

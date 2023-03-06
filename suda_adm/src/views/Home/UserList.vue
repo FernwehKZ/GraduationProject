@@ -5,7 +5,7 @@
         <el-button slot="append" icon="el-icon-search">搜索</el-button>
       </el-input>
     </div>
-    <div class="movie-table">
+    <div class="user-table">
       <el-table
           border
           :data="userData">
@@ -38,13 +38,11 @@
             label="性别"
             align="center"
             show-overflow-tooltip
-            width="50px"
             prop="sex">
         </el-table-column>
         <el-table-column
             label="年龄"
             align="center"
-            width="50px"
             show-overflow-tooltip
             prop="age">
         </el-table-column>
@@ -90,25 +88,21 @@
             <el-radio v-model="radio" label="女" @change="changeRadio">女</el-radio>
             <el-radio v-model="radio" label="男" @change="changeRadio">男</el-radio>
           </el-form-item>
-<!--          <el-form-item label="头像:" prop="headPic">-->
-<!--            <el-upload-->
-<!--                class="avatar-uploader"-->
-<!--                :action="$http.defaults.baseURL + '/upload'"-->
-<!--                :show-file-list="false"-->
-<!--                :on-success="handleAvatarSuccess"-->
-<!--                :before-upload="beforeAvatarUpload"-->
-<!--            >-->
-<!--              <template v-slot="scope">-->
-<!--                <img v-if="userRegister.icon":src="scope.row.icon">-->
-<!--&lt;!&ndash;                <i v-else class="el-icon-plus avatar-uploader-icon"></i>&ndash;&gt;-->
-<!--              </template>-->
-
-<!--            </el-upload>-->
-<!--          </el-form-item>-->
-          <el-form-item label="用户头像:" prop="icon" >
-              <img :src="userInfo.icon" height="100rem" width="100rem">
-              <el-button type="primary" >上传头像</el-button>
+          <el-form-item label="头像:" prop="headPic">
+            <el-upload
+                class="avatar-uploader"
+                :action="$http.defaults.baseURL + '/upload/userIcon'"
+                :show-file-list="false"
+                :on-success="handleAvatarSuccess"
+                :before-upload="beforeAvatarUpload">
+              <img v-if="userInfo.icon" :src="userInfo.icon" class="avatar">
+              <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+            </el-upload>
           </el-form-item>
+<!--          <el-form-item label="用户头像:" prop="icon" >-->
+<!--              <img :src="userInfo.icon" height="100rem" width="100rem">-->
+<!--              <el-button type="primary" >上传头像</el-button>-->
+<!--          </el-form-item>-->
           <el-form-item>
 <!--            native-type="submit"-->
             <el-button type="primary" @click="userSave(userInfo)">修改</el-button>
@@ -210,9 +204,36 @@ export default {
   margin-bottom: 30px;
 }
 
-.movie-table {
+.user-table {
   width: 90%;
   min-width: 900px;
   margin: 0 auto 30px;
+}
+
+.avatar-uploader .el-upload, i {
+  border: 1px dashed #d9d9d9;
+  border-radius: 6px;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+}
+
+.avatar-uploader .el-upload:hover {
+  border-color: #409EFF;
+}
+
+.avatar-uploader-icon {
+  font-size: 28px;
+  color: #8c939d;
+  width: 178px;
+  height: 178px;
+  line-height: 178px;
+  text-align: center;
+}
+
+.avatar {
+  width: 178px;
+  height: 178px;
+  display: block;
 }
 </style>

@@ -2,12 +2,14 @@
   <el-container style="height: 100vh;">
     <el-aside width="200px" style="background-color: rgb(238, 241, 246)">
       <el-menu router :default-openeds="['1', '3']">
-          <el-menu-item index="/home/userList">
-            <i class="el-icon-s-custom"></i>用户管理
-          </el-menu-item>
-        <el-menu-item index="/home/movieList">
-          <i class="el-icon-video-camera-solid"></i>影片管理
+        <el-menu-item index="/home/userList">
+          <i class="el-icon-s-custom"></i>用户管理
         </el-menu-item>
+        <el-submenu>
+          <template slot="title"><i class="el-icon-menu"></i>影片管理</template>
+          <el-menu-item index="/home/AddMovie">新增电影</el-menu-item>
+          <el-menu-item index="/home/movieList">电影列表</el-menu-item>
+        </el-submenu>
         <el-menu-item index="/home/movieCategory">
           <i class="el-icon-s-ticket"></i>分类管理
         </el-menu-item>
